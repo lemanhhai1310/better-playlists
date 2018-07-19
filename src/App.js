@@ -8,25 +8,53 @@ let fakeServerData = {
         playlists: [
             {
                 name: 'My favorites',
-                songs: ['Beat It', 'Cannelloni Makaroni', 'Rosa helikopter']
+                songs: [
+                    {name: 'Beat It', duration: 1234}, 
+                    {name: 'Cannelloni Makaroni', duration: 1236}, 
+                    {name: 'Rosa helikopter', duration: 70000}
+                ]
             },
             {
                 name: 'Em ơi',
-                songs: ['Beat It', 'Cannelloni Makaroni', 'Rosa helikopter']
+                songs: [
+                    {name: 'Beat It', duration: 1234}, 
+                    {name: 'Cannelloni Makaroni', duration: 1236}, 
+                    {name: 'Rosa helikopter', duration: 70000}
+                ]
             },
             {
                 name: 'Anh không đòi quà',
-                songs: ['Beat It', 'Cannelloni Makaroni', 'Rosa helikopter']
+                songs: [
+                    {name: 'Beat It', duration: 1234}, 
+                    {name: 'Cannelloni Makaroni', duration: 1236}, 
+                    {name: 'Rosa helikopter', duration: 70000}
+                ]
             }
         ]
     }
 };
 
-class Aggregate extends Component{
+class PlaylistCounter extends Component{
     render(){
         return(
             <div className="aggregate" style={{width: '40%', display: 'inline-block'}}>
-                <h2 style={{color: DefaultTextColor}}>{this.props.playlists && this.props.playlists.length} Text</h2>
+                <h2 style={{color: DefaultTextColor}}>{this.props.playlists && this.props.playlists.length} playlist</h2>
+            </div>
+        );
+    }
+}
+
+class HoursCounter extends Component{
+    render(){
+        let allSongs = this.props.playlists.reduce((songs, eachPlaylist) => {
+            return songs.concat(eachPlaylist.songs);
+        },[]);
+        let totalDuration = allSongs.reduce((sum, eachSong) => {
+            return sum + eachSong.duration
+        }, 0);
+        return(
+            <div className="aggregate" style={{width: '40%', display: 'inline-block'}}>
+                <h2 style={{color: DefaultTextColor}}>{allSongs.length} hours</h2>
             </div>
         );
     }
@@ -88,14 +116,14 @@ class App extends Component {
                         <h1>
                             {this.state.serverData.user.name}'s Playlists
                         </h1>
-                        <Aggregate playlists={this.state.serverData.user.playlists} />
-                        <Aggregate />
+                        <PlaylistCounter playlists={this.state.serverData.user.playlists} />
+                        <HoursCounter />
                         <Filter />
                         <Playlist />
                         <Playlist />
                         <Playlist />
                         <Playlist />
-                    </div> : 'Loading...'
+                    </div> : <div style={{height: '100vh'}} className="uk-flex uk-flex-center uk-flex-middle"><h1 className="uk-text-center">Loading...</h1></div>
                 }
             </div>
         );
