@@ -15,7 +15,15 @@ let fakeServerData = {
                 ]
             },
             {
-                name: 'Em ơi',
+                name: 'Sơn Tùng MTP',
+                songs: [
+                    {name: 'Nơi này có em', duration: 1234}, 
+                    {name: 'Không phải dạng vừa đâu', duration: 1236}, 
+                    {name: 'Rosa helikopter', duration: 70000}
+                ]
+            },
+            {
+                name: 'Quang Hà',
                 songs: [
                     {name: 'Beat It', duration: 1234}, 
                     {name: 'Cannelloni Makaroni', duration: 1236}, 
@@ -23,7 +31,7 @@ let fakeServerData = {
                 ]
             },
             {
-                name: 'Anh không đòi quà',
+                name: 'Hồ Ngọc Hà',
                 songs: [
                     {name: 'Beat It', duration: 1234}, 
                     {name: 'Cannelloni Makaroni', duration: 1236}, 
@@ -77,13 +85,13 @@ class Playlist extends Component{
         return(
             <div style={{width: '25%', display: 'inline-block'}}>
                 <img src="" alt=""/>
-                <h3>Playlist Name</h3>
+                <h3>{this.props.playlist.name}</h3>
                 <ul>
-                    <li>Song 1</li>
-                    <li>Song 2</li>
-                    <li>Song 3</li>
-                    <li>Song 4</li>
-
+                    {
+                        this.props.playlist.songs.map((song, index) => 
+                            <li key={index}>{song.name}</li>
+                        )
+                    }
                 </ul>
             </div>
         );
@@ -119,10 +127,9 @@ class App extends Component {
                         <PlaylistCounter playlists={this.state.serverData.user.playlists} />
                         <HoursCounter playlists={this.state.serverData.user.playlists} />
                         <Filter />
-                        <Playlist />
-                        <Playlist />
-                        <Playlist />
-                        <Playlist />
+                        {this.state.serverData.user.playlists.map((playlist, index) => {
+                            return <Playlist key={index} playlist={playlist} />;
+                        })}
                     </div> : <div style={{height: '100vh'}} className="uk-flex uk-flex-center uk-flex-middle"><h1 className="uk-text-center">Loading...</h1></div>
                 }
             </div>
