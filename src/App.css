@@ -29,4 +29,9 @@
 }
 body{
   background-color: #222;
+  min-height: 100vh;
+  color: #fff;
+}
+h1,h3{
+  color: #fff;
 }
