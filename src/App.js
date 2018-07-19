@@ -54,7 +54,7 @@ class HoursCounter extends Component{
         }, 0);
         return(
             <div className="aggregate" style={{width: '40%', display: 'inline-block'}}>
-                <h2 style={{color: DefaultTextColor}}>{allSongs.length} hours</h2>
+                <h2 style={{color: DefaultTextColor}}>{Math.round(totalDuration/60)} hours</h2>
             </div>
         );
     }
@@ -117,7 +117,7 @@ class App extends Component {
                             {this.state.serverData.user.name}'s Playlists
                         </h1>
                         <PlaylistCounter playlists={this.state.serverData.user.playlists} />
-                        <HoursCounter />
+                        <HoursCounter playlists={this.state.serverData.user.playlists} />
                         <Filter />
                         <Playlist />
                         <Playlist />
