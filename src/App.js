@@ -73,7 +73,7 @@ class Filter extends Component{
         return(
             <div>
                 <img src="" alt=""/>
-                <input type="text" name="" id="" placeholder="Search..."/>
+                <input type="text" name="" id="" onChange={e => this.props.onTextChange(e.target.value)} placeholder="Search..."/>
                 <button>Filter</button>
             </div>
         );
@@ -103,9 +103,8 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            serverData: {
-
-            }
+            serverData: {},
+            filterString: ''
         }
     }
 
@@ -113,10 +112,19 @@ class App extends Component {
         setTimeout(() => {
             this.setState({serverData: fakeServerData});
         }, 1000);
+        setTimeout(() => {
+            this.setState({filterString: ''});
+        }, 2000);
     }
 
     render() {
         console.log(this.state.serverData);
+        let playlistToRender = this.state.serverData.user ? this.state.serverData.user.playlists
+            .filter(playlist =>
+                playlist.name.toLowerCase().includes(
+                    this.state.filterString.toLowerCase())
+        ) : []
+
         return (
             <div className="App uk-container">
                 {this.state.serverData.user ?
@@ -124,10 +132,10 @@ class App extends Component {
                         <h1>
                             {this.state.serverData.user.name}'s Playlists
                         </h1>
-                        <PlaylistCounter playlists={this.state.serverData.user.playlists} />
-                        <HoursCounter playlists={this.state.serverData.user.playlists} />
-                        <Filter />
-                        {this.state.serverData.user.playlists.map((playlist, index) => {
+                        <PlaylistCounter playlists={playlistToRender} />
+                        <HoursCounter playlists={playlistToRender} />
+                        <Filter onTextChange={text => this.setState({filterString: text})} />
+                        {playlistToRender.map((playlist, index) => {
                             return <Playlist key={index} playlist={playlist} />;
                         })}
                     </div> : <div style={{height: '100vh'}} className="uk-flex uk-flex-center uk-flex-middle"><h1 className="uk-text-center">Loading...</h1></div>
