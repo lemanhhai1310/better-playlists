@@ -138,7 +138,7 @@ class App extends Component {
                         {playlistToRender.map((playlist, index) => {
                             return <Playlist key={index} playlist={playlist} />;
                         })}
-                    </div> : <div style={{height: '100vh'}} className="uk-flex uk-flex-center uk-flex-middle"><h1 className="uk-text-center">Loading...</h1></div>
+                    </div> : <button onClick={() => {window.location='http://localhost:8888/login'}} className="uk-button uk-button-default">Sign in with Spotify</button>
                 }
             </div>
         );
